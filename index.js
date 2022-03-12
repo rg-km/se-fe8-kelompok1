@@ -9,7 +9,7 @@ const DIRECTION = {
     UP: 2,
     DOWN: 3,
 }
-let MOVE_INTERVAL = 150; // speed ular
+let MOVE_INTERVAL = 100;
 
 function initPosition() {
     return {
@@ -26,9 +26,9 @@ function initHeadAndBody() {
         body: body,
     }
 }
-
+console.log(initHeadAndBody());
 function initDirection() {
-    return Math.floor(Math.random() * 4);
+    return Math.floor(Math.random() * 0);
 }
 
 function initSnake(color) {
@@ -39,7 +39,7 @@ function initSnake(color) {
         score: 0,
     }
 }
-let snake1 = initSnake("purple");
+let snake1 = initSnake("#F999B7");
 
 let apple = {
     position: initPosition(),
@@ -49,11 +49,6 @@ let apple2 = {
     position: initPosition(),
 }
 
-let dinding = {
-    position: initPosition(),
-    color: "black",
-}
-
 function drawCell(ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -61,16 +56,6 @@ function drawCell(ctx, x, y, color) {
 
 function drawGambar(ctx, img, x, y) {
     ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-}
-
-function drawDinding(ctx,x,y,color){
-    ctx.fillStyle = color;
-    ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-    // console.log([x,y]);
-    while(x < 28){
-        ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        x += 1;
-    }
 }
 
 function drawScore(snake) {
@@ -102,11 +87,7 @@ function draw() {
         drawGambar(ctx, img, apple.position.x, apple.position.y);
         drawGambar(ctx, img, apple2.position.x, apple2.position.y);
 
-        drawDinding(ctx, dinding.position.x, dinding.position.y, dinding.color);
-        
-        
         drawScore(snake1);
-        
     }, REDRAW_INTERVAL);
 }
 
@@ -169,18 +150,13 @@ function checkCollision(snakes) {
             for (let k = 1; k < snakes[j].body.length; k++) {
                 if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
                     isCollide = true;
-                } else if (snakes[i].head.x == dinding.position.x && snakes[i].head.y == dinding.position.y){
-                    isCollide = true;
-                };
+                }
             }
         }
     }
     if (isCollide) {
-        var bel = new Audio('game-over.mp3');
-        bel.play();
-        
         alert("Game over");
-        snake1 = initSnake("purple");
+        snake1 = initSnake("#F999B7");
     }
     return isCollide;
 }
@@ -200,37 +176,11 @@ function move(snake) {
             moveUp(snake);
             break;
     }
-    
     moveBody(snake);
     if (!checkCollision([snake1])) {
-        let nilai = snake.score;
-        switch (true){
-            case (nilai <= 5):
-                setTimeout(function() {
-                    move(snake);
-                }, MOVE_INTERVAL);
-                break;
-            case (nilai > 5) && (nilai <= 10):
-                setTimeout(function() {
-                    move(snake);
-                }, MOVE_INTERVAL/2);
-                break;
-            case (nilai > 10) && (nilai <= 15):
-                setTimeout(function() {
-                    move(snake);
-                }, MOVE_INTERVAL/4);
-                break;
-            case (nilai > 15) && (nilai <= 20):
-                setTimeout(function() {
-                    move(snake);
-                }, MOVE_INTERVAL/6);
-                break;    
-            case (nilai > 20) && (nilai <= 25):
-                setTimeout(function() {
-                    move(snake);
-                }, MOVE_INTERVAL/8);
-                break; 
-        }
+        setTimeout(function() {
+            move(snake);
+        }, MOVE_INTERVAL);
     } else {
         initGame();
     }
