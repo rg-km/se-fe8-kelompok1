@@ -227,6 +227,8 @@ function teleport(snake) {
 function levelCheck(snake) {
     if(snake.score % 5 === 0){
         level++;
+        var checkpoint = new Audio('checkpoint.mp3');
+        checkpoint.play();
         MOVE_INTERVAL /= 1.2;
     }
 }
