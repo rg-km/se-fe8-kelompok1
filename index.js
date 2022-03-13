@@ -1,5 +1,5 @@
 const CELL_SIZE = 20;
-const CANVAS_SIZE = 600;
+const CANVAS_SIZE = 400;
 const REDRAW_INTERVAL = 100;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
 const HEIGHT = CANVAS_SIZE / CELL_SIZE;
@@ -9,7 +9,9 @@ const DIRECTION = {
     UP: 2,
     DOWN: 3,
 }
-let MOVE_INTERVAL = 100;
+let MOVE_INTERVAL = 160;
+let live = 3;
+let level = 1;
 
 function initPosition() {
     return {
@@ -26,20 +28,19 @@ function initHeadAndBody() {
         body: body,
     }
 }
-console.log(initHeadAndBody());
+
 function initDirection() {
-    return Math.floor(Math.random() * 0);
+    return Math.floor(Math.random() * 4);
 }
 
-function initSnake(color) {
+function initSnake() {
     return {
-        color: color,
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
     }
 }
-let snake1 = initSnake("#F999B7");
+let snake1 = initSnake();
 
 let apple = {
     position: initPosition(),
@@ -47,6 +48,50 @@ let apple = {
 
 let apple2 = {
     position: initPosition(),
+}
+
+let liveIcon = {
+    position: initPosition(),
+}
+
+let dinding1 = {
+    position: {
+        x: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+        y: [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]
+    },
+    color: "black",
+}
+
+let dinding2 = {
+    position: {
+        x: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+        y: [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]
+    },
+    color: "black",
+}
+
+let dinding3 = {
+    position: {
+        x: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+        y: [15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15]
+    },
+    color: "black",
+}
+
+let dinding4 = {
+    position: {
+        x: [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
+        y: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+    },
+    color: "black",
+}
+
+let dinding5 = {
+    position: {
+        x: [15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15],
+        y: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+    },
+    color: "black",
 }
 
 function drawCell(ctx, x, y, color) {
@@ -62,32 +107,105 @@ function drawScore(snake) {
     let scoreCanvas;
     if (snake.color == snake1.color) {
         scoreCanvas = document.getElementById("score1Board");
-    } 
+    }
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     scoreCtx.font = "30px Arial";
     scoreCtx.fillStyle = snake.color
-    scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+    scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 1.5);
+}
+
+function checkPrimeNumber (num) {
+  let pembagi = 0;
+  for(let i = 1; i<=num; i++) {
+    if (num%i == 0) {
+      pembagi++
+    } 
+  }
+  if(pembagi == 2){
+      return true
+    }else{
+      return false
+    }
 }
 
 function draw() {
     setInterval(function() {
         let snakeCanvas = document.getElementById("snakeBoard");
         let ctx = snakeCanvas.getContext("2d");
-        let img = document.getElementById("apel");
+        let imgApple = document.getElementById("apple");
+        let imgSnakeHead = document.getElementById("head-snake");
+        let imgSnakeBody = document.getElementById("body-snake");
+        let imgLiveIcon = document.getElementById("live-icon");
 
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
         
-        drawCell(ctx, snake1.head.x, snake1.head.y, snake1.color);
+        drawGambar(ctx,imgSnakeHead, snake1.head.x, snake1.head.y,);
         for (let i = 1; i < snake1.body.length; i++) {
-            drawCell(ctx, snake1.body[i].x, snake1.body[i].y, snake1.color);
+            drawGambar(ctx, imgSnakeBody, snake1.body[i].x, snake1.body[i].y,);
+        }
+        
+        drawGambar(ctx, imgApple, apple.position.x, apple.position.y);
+        drawGambar(ctx, imgApple, apple2.position.x, apple2.position.y);
+
+        if(checkPrimeNumber(snake1.score)){
+            drawGambar(ctx, imgLiveIcon, liveIcon.position.x, liveIcon.position.y);
+        }
+        
+        for(let i = 0; i < live; i++){
+            drawGambar(ctx, imgLiveIcon, i, 0);
         }
 
-        drawGambar(ctx, img, apple.position.x, apple.position.y);
-        drawGambar(ctx, img, apple2.position.x, apple2.position.y);
+        if(level ===2){
+            for(let i = 0; i < dinding1.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding1.position.x[i], dinding1.position.y[i], dinding1.color);
+                console.log("test2")
+            }
+        }else if(level === 3){
+            for(let i = 0; i < dinding1.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding1.position.x[i], dinding1.position.y[i], dinding1.color);
+                console.log("test2")
+            }
+            for(let i = 0; i < dinding2.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding2.position.x[i], dinding2.position.y[i], dinding2.color);
+                console.log("test2")
+            }
+        }else if (level === 4){
+            for(let i = 0; i < dinding1.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding1.position.x[i], dinding1.position.y[i], dinding1.color);
+                console.log("test2")
+            }
+            for(let i = 0; i < dinding2.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding2.position.x[i], dinding2.position.y[i], dinding2.color);
+                console.log("test2")
+            }
+            for(let i = 0; i < dinding3.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding3.position.x[i], dinding3.position.y[i], dinding3.color);
+                console.log("test2")
+            }
+        }else if(level === 5){
+            for(let i = 0; i < dinding4.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding4.position.x[i], dinding4.position.y[i], dinding4.color);
+                console.log("test2")
+            }
+            for(let i = 0; i < dinding5.position.x.length; i++){
+                console.log("test")
+                drawCell(ctx, dinding5.position.x[i], dinding5.position.y[i], dinding5.color);
+                console.log("test2")
+            }
+        }
 
         drawScore(snake1);
+        document.getElementById("level").innerHTML = "Snake Game - Level " + level;
+        document.getElementById("moveSpeed").innerHTML = "Speed: " + MOVE_INTERVAL + " .ms";
     }, REDRAW_INTERVAL);
 }
 
@@ -106,11 +224,29 @@ function teleport(snake) {
     }
 }
 
+function levelCheck(snake) {
+    if(snake.score % 5 === 0){
+        level++;
+        MOVE_INTERVAL /= 1.2;
+    }
+}
+
 function eat(snake, apple) {
     if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
         apple.position = initPosition();
         snake.score++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
+        levelCheck(snake)
+    }
+}
+
+function eatLive(snake, liveIcon) {
+    if (snake.head.x == liveIcon.position.x && snake.head.y == liveIcon.position.y) {
+        liveIcon.position = initPosition();
+        snake.score++;
+        snake.body.push({x: snake.head.x, y: snake.head.y});
+        levelCheck(snake)
+        live++;
     }
 }
 
@@ -119,6 +255,7 @@ function moveLeft(snake) {
     teleport(snake);
     eat(snake, apple);
     eat(snake, apple2);
+    eatLive(snake, liveIcon);
 }
 
 function moveRight(snake) {
@@ -126,6 +263,7 @@ function moveRight(snake) {
     teleport(snake);
     eat(snake, apple);
     eat(snake, apple2);
+    eatLive(snake, liveIcon);
 }
 
 function moveDown(snake) {
@@ -133,6 +271,7 @@ function moveDown(snake) {
     teleport(snake);
     eat(snake, apple);
     eat(snake, apple2);
+    eatLive(snake, liveIcon);
 }
 
 function moveUp(snake) {
@@ -140,23 +279,65 @@ function moveUp(snake) {
     teleport(snake);
     eat(snake, apple);
     eat(snake, apple2);
+    eatLive(snake, liveIcon);
 }
 
 function checkCollision(snakes) {
     let isCollide = false;
     //this
-    for (let i = 0; i < snakes.length; i++) {
-        for (let j = 0; j < snakes.length; j++) {
-            for (let k = 1; k < snakes[j].body.length; k++) {
-                if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
-                    isCollide = true;
-                }
-            }
+    for (let k = 1; k < snakes.body.length; k++) {
+        if (snakes.head.x == snakes.body[k].x && snakes.head.y == snakes.body[k].y) {
+            isCollide = true;
         }
     }
+
+    if(level >= 2 && level <= 4 ){
+        if(level >= 2){
+            for (let i = 0; i < dinding1.position.x.length; i++){
+                if (snakes.head.x == dinding1.position.x[i] && snakes.head.y == dinding1.position.y[i]){
+                    isCollide = true;
+                };
+            }
+        }if(level >= 3){
+            for (let i = 0; i < dinding2.position.x.length; i++){
+                if (snakes.head.x == dinding2.position.x[i] && snakes.head.y == dinding2.position.y[i]){
+                    isCollide = true;
+                };
+            }
+        }if(level >= 4){
+            for (let i = 0; i < dinding3.position.x.length; i++){
+                if (snakes.head.x == dinding3.position.x[i] && snakes.head.y == dinding3.position.y[i]){
+                    isCollide = true;
+                };
+            }
+        }
+    }else if(level === 5){
+        for (let i = 0; i < dinding4.position.x.length; i++){
+            if (snakes.head.x == dinding4.position.x[i] && snakes.head.y == dinding4.position.y[i]){
+                isCollide = true;
+            };
+        }
+        for (let i = 0; i < dinding5.position.x.length; i++){
+            if (snakes.head.x == dinding5.position.x[i] && snakes.head.y == dinding5.position.y[i]){
+                isCollide = true;
+            };
+        }
+    }
+
     if (isCollide) {
-        alert("Game over");
-        snake1 = initSnake("#F999B7");
+        if(live <= 0){
+            var bel = new Audio('game-over.mp3');
+            bel.play();
+            alert("Game over");
+            snake1 = initSnake();
+            live = 3;
+            level = 1;
+            MOVE_INTERVAL = 160;
+        }else{
+            snakes.score = 0;
+            snake1 = initSnake();
+            live--
+        }
     }
     return isCollide;
 }
@@ -177,12 +358,12 @@ function move(snake) {
             break;
     }
     moveBody(snake);
-    if (!checkCollision([snake1])) {
+    if (!checkCollision(snake)) {
         setTimeout(function() {
             move(snake);
         }, MOVE_INTERVAL);
     } else {
-        initGame();
+        move(snake1);
     }
 }
 
@@ -216,8 +397,4 @@ document.addEventListener("keydown", function (event) {
     }
 })
 
-function initGame() {
-    move(snake1);
-}
-
-initGame();
+move(snake1)

@@ -3,9 +3,20 @@
     </head>
         <script type="text/javascript" src="index.js"></script>
     <body onload="draw();">
-        <h1>Snake</h1>
-        <canvas id="snakeBoard" width="600" height="600" style="background: #FDFCE5; border-radius: 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);"></canvas>
-        <canvas id="score1Board" width="80" height="80" style="margin-left:10px;background: #E8F6EF; border-radius: 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); "></canvas>
-        <img id="apel" src="apel.png" hidden>
+        <h1 style="text-align: center;">Snake</h1>
+         <!---Level & Score--->
+         <h1 id="level" style="text-align: center;"></h1>
+        <!-- Soal no 3: Tambahkan resource gambar untuk ditampilkan di canvas -->
+        <img id="apple" style="display: none;" width="20" height="20" src="apel.png" alt="Apple">
+        <img id="head-snake" style="display: none;" width="20" height="20" src="head-snake.png" alt="head-snake">
+        <img id="body-snake" style="display: none;" width="20" height="20" src="body-snake.png" alt="body-snake">
+        <img id="live-icon" style="display: none;" width="20" height="20" src="live-icon.png" alt="live-icon">
+        <!-- Soal no 1: Ubah nilai width dan height menjadi 600 pada element canvas:  -->
+        <canvas id="snakeBoard" width="400" height="400" style="border:1px solid #000000; margin-left: auto; margin-right: auto; display: block; background-color: #FFFBA5;"></canvas>
+
+       
+        <p style="text-align: center; font-size: large;">Score</p>
+        <canvas id="score1Board" width="50" height="50" style="border:1px solid #000000; margin-left: auto; margin-right: auto; display: block;"></canvas>
+        <h3 id="moveSpeed" style="text-align:center"></h3>
     </body>
 </html>
