@@ -204,7 +204,7 @@ function draw() {
         }
 
         drawScore(snake1);
-        document.getElementById("level").innerHTML = "Snake Game - Level " + level;
+        document.getElementById("level").innerHTML = "Level " + level;
         document.getElementById("moveSpeed").innerHTML = "Speed: " + MOVE_INTERVAL + " .ms";
     }, REDRAW_INTERVAL);
 }
